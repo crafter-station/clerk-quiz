@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useStrings } from "@/i18n/strings";
+import { FollowUs } from "@/ui/FollowUs";
 import { LanguageToggle } from "@/ui/LanguageToggle";
 import { ShakyText } from "@/ui/ShakyText";
 import { TimerBar } from "@/ui/TimerBar";
@@ -189,7 +190,9 @@ export function PlayView({ code }: { code: string }) {
 							{me.score} {t.pts}
 						</p>
 
-						<Link href="/" className="keycap rise rise-3 mt-10 px-6 py-3 font-semibold text-sm">
+						<FollowUs className="rise rise-3 mt-10" />
+
+						<Link href="/" className="keycap rise rise-4 mt-10 px-6 py-3 font-semibold text-sm">
 							{t.playAgain}
 						</Link>
 					</div>

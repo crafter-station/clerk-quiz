@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useStrings } from "@/i18n/strings";
 import type { RoomSnapshot } from "@/server/store";
 import { BrandBar } from "@/ui/BrandBar";
+import { FollowUs } from "@/ui/FollowUs";
 import { JoinQr } from "@/ui/JoinQr";
 import { ShakyText } from "@/ui/ShakyText";
 import { TimerBar } from "@/ui/TimerBar";
@@ -225,6 +226,8 @@ export function HostView({ code }: { code: string }) {
 						<div className="rise rise-4 mt-12 w-full max-w-xl">
 							<Leaderboard room={room} title={t.leaderboard} limit={room.players.length} />
 						</div>
+
+						<FollowUs className="rise rise-5 mt-12" />
 
 						<Link href="/" className="keycap-ghost rise rise-5 mt-10 px-6 py-2.5 text-sm">
 							{t.newRoom}

@@ -71,6 +71,7 @@ export interface Strings {
 	scoringNote: string;
 	hostView: string;
 	answersInCount: string;
+	followUs: string;
 }
 
 const EN: Strings = {
@@ -134,6 +135,7 @@ const EN: Strings = {
 	scoringNote: "Faster correct answers score more, Kahoot-style.",
 	hostView: "Host view",
 	answersInCount: "answers in",
+	followUs: "Follow us",
 };
 
 const ES: Strings = {
@@ -197,6 +199,7 @@ const ES: Strings = {
 	scoringNote: "Responder bien y rápido da más puntos, estilo Kahoot.",
 	hostView: "Vista del host",
 	answersInCount: "respuestas",
+	followUs: "Síguenos",
 };
 
 const DICTIONARIES: Record<Locale, Strings> = { en: EN, es: ES };
