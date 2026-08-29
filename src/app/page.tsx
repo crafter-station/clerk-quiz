@@ -97,6 +97,18 @@ export default function HomePage() {
 						{t.tagline}
 					</p>
 
+					{/* The subject of the quiz, in the same dimmed-mark register as the
+					    reference's sponsor strip: quiet until hovered. */}
+					<a
+						href="https://clerk.com"
+						target="_blank"
+						rel="noreferrer"
+						aria-label="Clerk"
+						className="rise rise-2 mt-6 opacity-60 transition-opacity hover:opacity-100"
+					>
+						<img src="/sponsors/clerk.svg" alt="Clerk" className="h-8 w-auto" />
+					</a>
+
 					<div className="mt-12 grid w-full gap-6 md:grid-cols-2">
 						{/* ── Join ─────────────────────────────────────────── */}
 						<form onSubmit={join} className="panel rise rise-3 flex flex-col gap-4 p-6">
