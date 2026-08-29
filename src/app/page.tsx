@@ -6,6 +6,7 @@ import { useStrings } from "@/i18n/strings";
 import { MAX_QUESTIONS } from "@/questions/bank";
 import { BrandBar } from "@/ui/BrandBar";
 import { ShakyText } from "@/ui/ShakyText";
+import { SocialLinks } from "@/ui/SocialLinks";
 
 const QUESTION_CHOICES = [5, 10, 15, 20, 25, MAX_QUESTIONS];
 const SECOND_CHOICES = [10, 15, 20, 30];
@@ -211,6 +212,10 @@ export default function HomePage() {
 						</div>
 					</div>
 				</div>
+
+				<footer className="rise rise-5 pt-4 pb-2">
+					<SocialLinks />
+				</footer>
 			</div>
 		</main>
 	);
