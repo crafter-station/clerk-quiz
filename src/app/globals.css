@@ -1,0 +1,402 @@
+@import "tailwindcss";
+
+/*
+ * Palette and utilities lifted from crafter-station/catch-the-craft (itself
+ * lifted from the-next-craft) so the quiz reads as part of the same event, not
+ * a lookalike. Warm black-and-white — "negro cálido tipo Apple '99" — with no
+ * accent hue at all.
+ */
+:root {
+	color-scheme: dark;
+
+	--ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
+	--ease-in-out-strong: cubic-bezier(0.77, 0, 0.175, 1);
+
+	--void: #1a1a17;
+	--screen: #1a1a17;
+	--screen-dim: #161613;
+	--line: #8c8a82;
+	--bright: #e9e7de;
+	--text: #f2f0e9;
+	--text-dim: #a2a096;
+	--bone: #e6e3d8;
+	--key-shadow: #8c8a82;
+	--destructive: #f87171;
+	--correct: #a3e635;
+	--border: rgb(140 138 130 / 45%);
+}
+
+@theme inline {
+	--color-void: var(--void);
+	--color-screen: var(--screen);
+	--color-screen-dim: var(--screen-dim);
+	--color-line: var(--line);
+	--color-bright: var(--bright);
+	--color-text: var(--text);
+	--color-text-dim: var(--text-dim);
+	--color-bone: var(--bone);
+	--color-destructive: var(--destructive);
+	--color-border: var(--border);
+
+	--font-pixel: var(--font-silkscreen);
+	--font-mono: var(--font-plex-mono);
+	--font-script: var(--font-borel);
+	--font-sans: var(--font-plex-mono);
+}
+
+@layer base {
+	html {
+		font-family: var(--font-mono);
+	}
+
+	body {
+		margin: 0;
+		min-height: 100dvh;
+		background-color: var(--void);
+		color: var(--text);
+		overflow-x: hidden;
+		overscroll-behavior: none;
+		-webkit-font-smoothing: antialiased;
+	}
+
+	p {
+		text-wrap: pretty;
+	}
+
+	::selection {
+		background-color: var(--bright);
+		color: var(--void);
+	}
+
+	:focus-visible {
+		outline: 2px solid var(--bright);
+		outline-offset: 2px;
+	}
+}
+
+/* ─── Type ──────────────────────────────────────────────────────── */
+
+.section-label {
+	font-family: var(--font-mono);
+	font-size: 12px;
+	line-height: 1.4;
+	font-weight: 600;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: var(--bright);
+}
+
+.pixel-heading {
+	font-family: var(--font-pixel);
+	font-weight: 700;
+	text-transform: uppercase;
+	line-height: 1.15;
+	letter-spacing: 0.01em;
+	color: var(--text);
+	text-wrap: balance;
+}
+
+/* ─── Surfaces ──────────────────────────────────────────────────── */
+
+.panel {
+	background-color: var(--screen-dim);
+	border: 1px solid var(--line);
+	border-radius: 0.625rem;
+}
+
+.scanlines {
+	background-image: repeating-linear-gradient(
+		to bottom,
+		rgb(0 0 0 / 14%) 0,
+		rgb(0 0 0 / 14%) 1px,
+		transparent 1px,
+		transparent 4px
+	);
+}
+
+.grid-bg {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	z-index: 0;
+	background-image:
+		linear-gradient(to right, rgb(140 138 130 / 9%) 1px, transparent 1px),
+		linear-gradient(to bottom, rgb(140 138 130 / 9%) 1px, transparent 1px);
+	background-size: 46px 46px;
+	-webkit-mask-image: radial-gradient(ellipse at center, #000 35%, transparent 82%);
+	mask-image: radial-gradient(ellipse at center, #000 35%, transparent 82%);
+}
+
+/* ─── Keycaps ───────────────────────────────────────────────────── */
+
+.keycap {
+	background-color: var(--bone);
+	color: var(--void);
+	border: 1px solid var(--key-shadow);
+	border-radius: 0.5rem;
+	box-shadow: 0 3px 0 var(--key-shadow);
+	transform: translateY(0);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.keycap:hover {
+		background-color: #f4f2ea;
+	}
+}
+
+.keycap:active {
+	transform: translateY(3px);
+	box-shadow: 0 0 0 var(--key-shadow);
+}
+
+.keycap:disabled {
+	opacity: 0.35;
+	transform: translateY(0);
+	box-shadow: 0 3px 0 var(--key-shadow);
+}
+
+.keycap-ghost {
+	background-color: transparent;
+	color: var(--text);
+	border: 1px solid var(--line);
+	border-radius: 0.5rem;
+	box-shadow: 0 3px 0 var(--line);
+	transform: translateY(0);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.keycap-ghost:hover {
+		background-color: var(--screen-dim);
+	}
+}
+
+.keycap-ghost:active {
+	transform: translateY(3px);
+	box-shadow: 0 0 0 var(--line);
+}
+
+.keycap-ghost:disabled {
+	opacity: 0.35;
+	transform: translateY(0);
+	box-shadow: 0 3px 0 var(--line);
+}
+
+/* ─── Cursor blink ──────────────────────────────────────────────── */
+
+@keyframes blink {
+	0%,
+	49% {
+		opacity: 1;
+	}
+	50%,
+	100% {
+		opacity: 0;
+	}
+}
+
+.cursor::after {
+	content: "█";
+	animation: blink 1s steps(1) infinite;
+}
+
+/* ─── Screen transitions ────────────────────────────────────────── */
+
+@keyframes rise {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+.rise {
+	animation: rise 480ms ease-out both;
+}
+
+.rise-1 {
+	animation-delay: 70ms;
+}
+
+.rise-2 {
+	animation-delay: 140ms;
+}
+
+.rise-3 {
+	animation-delay: 210ms;
+}
+
+.rise-4 {
+	animation-delay: 280ms;
+}
+
+.rise-5 {
+	animation-delay: 380ms;
+}
+
+/* ─── Shaky letters ─────────────────────────────────────────────── */
+
+@keyframes letter-shake {
+	0%,
+	100% {
+		transform: translate(0, 0) rotate(0deg);
+	}
+	25% {
+		transform: translate(-0.8px, 0.6px) rotate(-1.4deg);
+	}
+	50% {
+		transform: translate(0.7px, -0.7px) rotate(1.4deg);
+	}
+	75% {
+		transform: translate(-0.5px, -0.6px) rotate(-0.8deg);
+	}
+}
+
+@keyframes letter-jitter {
+	0%,
+	100% {
+		transform: translate(0, 0) rotate(0deg);
+	}
+	25% {
+		transform: translate(-2px, 2px) rotate(-4deg);
+	}
+	50% {
+		transform: translate(2px, -1.5px) rotate(4deg);
+	}
+	75% {
+		transform: translate(-1.5px, -2px) rotate(-3deg);
+	}
+}
+
+.shaky {
+	display: inline-block;
+}
+
+.shaky > span {
+	display: inline-block;
+	animation: letter-shake 900ms ease-in-out infinite;
+	animation-delay: calc(var(--letter) * -137ms);
+	will-change: transform;
+}
+
+.shaky:hover > span,
+.shaky:focus-visible > span {
+	animation-name: letter-jitter;
+	animation-duration: 320ms;
+}
+
+.shaky-box {
+	animation: letter-shake 900ms ease-in-out infinite;
+	will-change: transform;
+}
+
+.shaky-box:hover {
+	animation-name: letter-jitter;
+	animation-duration: 320ms;
+}
+
+/* ─── Timer bar ─────────────────────────────────────────────────── */
+
+/*
+ * The countdown for a question. The fill is driven by a CSS animation whose
+ * duration is set inline per question, so the bar drains without JS ticking —
+ * the server clock only has to be right at the start and the end.
+ */
+@keyframes drain {
+	from {
+		transform: scaleX(1);
+	}
+	to {
+		transform: scaleX(0);
+	}
+}
+
+.timer-rail {
+	height: 8px;
+	background-color: var(--screen-dim);
+	border: 1px solid var(--line);
+	border-radius: 4px;
+	overflow: hidden;
+}
+
+.timer-fill {
+	height: 100%;
+	background-color: var(--bone);
+	transform-origin: left;
+	animation: drain linear forwards;
+}
+
+/* ─── Answer keycaps ────────────────────────────────────────────── */
+
+/*
+ * The four options. Same keycap register as every other button, sized for a
+ * phone held in one hand. States are painted with the palette that already
+ * exists: correct borrows the one allowed accent, wrong dims to the void.
+ */
+.answer-correct {
+	background-color: var(--bone);
+	color: var(--void);
+	border-color: var(--correct);
+	box-shadow: 0 3px 0 var(--correct);
+}
+
+.answer-wrong {
+	opacity: 0.3;
+}
+
+.answer-picked {
+	outline: 2px solid var(--bright);
+	outline-offset: 2px;
+}
+
+/* ─── Result bars ───────────────────────────────────────────────── */
+
+@keyframes grow-bar {
+	from {
+		transform: scaleX(0);
+	}
+	to {
+		transform: scaleX(1);
+	}
+}
+
+.result-bar {
+	transform-origin: left;
+	animation: grow-bar 600ms var(--ease-out-strong) both;
+}
+
+/* ─── Leaderboard scroll ────────────────────────────────────────── */
+
+.board-scroll {
+	scrollbar-width: thin;
+	scrollbar-color: var(--line) transparent;
+}
+
+.board-scroll::-webkit-scrollbar {
+	width: 6px;
+}
+
+.board-scroll::-webkit-scrollbar-thumb {
+	background-color: var(--line);
+	border-radius: 3px;
+}
+
+/* ─── Cursor ────────────────────────────────────────────────────── */
+
+html {
+	cursor:
+		url("/cursor/arrow.svg") 0 0,
+		auto;
+}
+
+a,
+button,
+label,
+summary,
+[role="button"],
+select,
+input[type="range"] {
+	cursor:
+		url("/cursor/pointer.svg") 0 0,
+		pointer;
+}
