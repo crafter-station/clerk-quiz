@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useStrings } from "@/i18n/strings";
 import { MAX_QUESTIONS } from "@/questions/bank";
 import { BrandBar } from "@/ui/BrandBar";
@@ -17,6 +17,13 @@ export default function HomePage() {
 
 	const [code, setCode] = useState("");
 	const [name, setName] = useState("");
+
+	// Arriving via the lobby QR (/?code=123456) prefills the room code, so a
+	// scanned phone is one name-field away from playing.
+	useEffect(() => {
+		const scanned = new URLSearchParams(window.location.search).get("code");
+		if (scanned && /^\d{6}$/.test(scanned)) setCode(scanned);
+	}, []);
 	const [joining, setJoining] = useState(false);
 	const [joinError, setJoinError] = useState<string | null>(null);
 

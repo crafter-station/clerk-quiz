@@ -28,6 +28,7 @@ export interface Strings {
 	lobby: string;
 	joinAt: string;
 	withCode: string;
+	scanToJoin: string;
 	players: string;
 	noPlayersYet: string;
 	start: string;
@@ -90,6 +91,7 @@ const EN: Strings = {
 	lobby: "Lobby",
 	joinAt: "Join at",
 	withCode: "with code",
+	scanToJoin: "Scan to join",
 	players: "Players",
 	noPlayersYet: "No players yet — waiting for the crowd.",
 	start: "Start",
@@ -152,6 +154,7 @@ const ES: Strings = {
 	lobby: "Sala de espera",
 	joinAt: "Entra en",
 	withCode: "con el código",
+	scanToJoin: "Escanea para entrar",
 	players: "Jugadores",
 	noPlayersYet: "Aún no hay jugadores — esperando al público.",
 	start: "Empezar",

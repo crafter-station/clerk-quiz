@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useStrings } from "@/i18n/strings";
 import type { RoomSnapshot } from "@/server/store";
 import { BrandBar } from "@/ui/BrandBar";
+import { JoinQr } from "@/ui/JoinQr";
 import { ShakyText } from "@/ui/ShakyText";
 import { TimerBar } from "@/ui/TimerBar";
 import { serverNow, useRoom } from "@/ui/useRoom";
@@ -25,6 +26,9 @@ export function HostView({ code }: { code: string }) {
 		setHostKey(sessionStorage.getItem(`clerkquiz.host.${code}`));
 		setOrigin(window.location.host);
 	}, [code]);
+
+	// What the lobby QR encodes: the join page with the code already filled in.
+	const joinUrl = origin ? `${window.location.origin}/?code=${code}` : "";
 
 	async function post(action: "start" | "next") {
 		await fetch(`/api/rooms/${code}/${action}`, {
@@ -69,10 +73,15 @@ export function HostView({ code }: { code: string }) {
 							{t.joinAt} <span className="text-[color:var(--bright)]">{origin}</span> {t.withCode}
 						</p>
 
-						<div className="rise rise-2 mt-4">
+						<div className="rise rise-2 mt-4 flex flex-col items-center gap-8 sm:flex-row sm:gap-12">
 							<ShakyText className="pixel-heading text-6xl tracking-[0.2em] sm:text-8xl">
 								{room.code}
 							</ShakyText>
+
+							<div className="flex flex-col items-center gap-2">
+								<JoinQr url={joinUrl} />
+								<p className="section-label text-[color:var(--text-dim)]">{t.scanToJoin}</p>
+							</div>
 						</div>
 
 						<section className="rise rise-3 mt-12 w-full max-w-3xl">
